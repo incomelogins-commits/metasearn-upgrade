@@ -1,0 +1,27 @@
+[build]
+  command = "pnpm build"
+  functions = "dist/functions"
+  publish = "dist/client"
+
+[functions]
+  node_bundler = "esbuild"
+  external_node_modules = ["@supabase/supabase-js"]
+
+[[redirects]]
+  from = "/api/trpc/*"
+  to = "/.netlify/functions/index:path"
+  status = 200
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+[context.production]
+  environment = { NODE_ENV = "production" }
+
+[context.deploy-preview]
+  environment = { NODE_ENV = "production" }
+
+[context.branch-deploy]
+  environment = { NODE_ENV = "development" }
